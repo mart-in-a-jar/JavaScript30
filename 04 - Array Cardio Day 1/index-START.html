@@ -38,27 +38,81 @@
     // Array.prototype.filter()
     // 1. Filter the list of inventors for those who were born in the 1500's
 
+    const inventorsOfThe1500s = inventors.filter(person => (person["year"] >= 1500 && person["year"] < 1600)); // samme som "if (xxx) return true"
+    console.table(inventorsOfThe1500s);
+
     // Array.prototype.map()
     // 2. Give us an array of the inventors first and last names
 
+    const inventorNames = inventors.map(person => (person.first + " " + person.last));
+    console.table(inventorNames);
+
     // Array.prototype.sort()
     // 3. Sort the inventors by birthdate, oldest to youngest
+/*
+    const orderedInventors = inventors.sort((a, b) => {
+      if(a.year > b.year) return 1;
+      else return -1;
+    });
+*/
+    const orderedInventors = inventors.sort((a, b) => a.year > b.year ? 1 : -1); // 1 flytter a ned, -1 flytter a opp
+    console.table(orderedInventors);
 
     // Array.prototype.reduce()
     // 4. How many years did all the inventors live all together?
 
+    const inventorsYearsLived = inventors.reduce((total, person) => {
+      return total + (person.passed - person.year);
+    }, 0); // starter total på 0
+    console.log(inventorsYearsLived);
+
     // 5. Sort the inventors by years lived
+
+    const inventorsSorted = inventors.sort((a, b) => {
+      const lastGuy = a.passed - a.year;
+      const nextGuy = b.passed - b.year;
+      return lastGuy > nextGuy ? -1 : 1;
+    });
+    console.table(inventorsSorted);
+
 
     // 6. create a list of Boulevards in Paris that contain 'de' anywhere in the name
     // https://en.wikipedia.org/wiki/Category:Boulevards_in_Paris
 
+/*     I console på wiki-siden
+    const category = document.querySelector(".mw-category");
+    const links = [...category.querySelectorAll("a")]; // [...xx] er samme som Array.from(xx) 
+    const names = links.map(link => link.textContent);
+    const de = names.filter(name => name.includes("de"));
 
+    oneliner:
+    console.table([...document.querySelectorAll(".mw-category a")]
+                                                            .map(link => link.textContent)
+                                                            .filter(name => name.includes("de")))
+ */
     // 7. sort Exercise
     // Sort the people alphabetically by last name
+
+    const peopleSorted = people.sort();
+    console.table(peopleSorted);
+
+    const peopleSortedAndFormated = people.sort((a, b) => {
+      const [aLastName, aFirstName] = a.split(", ");
+      const [bLastName, bFirstName] = b.split(", ");
+      return aLastName > bLastName ? 1 : -1;
+    });
+    console.table(peopleSorted);
 
     // 8. Reduce Exercise
     // Sum up the instances of each of these
     const data = ['car', 'car', 'truck', 'truck', 'bike', 'walk', 'car', 'van', 'bike', 'walk', 'car', 'van', 'car', 'truck' ];
+
+    const carData = data.reduce((obj, item) => {
+      if (!(item in obj)) obj[item] = 1;
+      else obj[item] += 1;
+      return obj;
+    }, {});
+    console.table(carData);
 
   </script>
 </body>
